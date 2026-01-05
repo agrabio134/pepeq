@@ -55,15 +55,15 @@ class Particle {
     }
 
     update() {
-        // Move towards mouse
+        // Gentle move away from mouse
         const dx = mouseX - this.x;
         const dy = mouseY - this.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         
-        if (distance < 250) {
-            const force = (250 - distance) / 250;
-            this.x -= (dx / distance) * force * 3;
-            this.y -= (dy / distance) * force * 3;
+        if (distance < 130) {
+            const force = (130 - distance) / 130;
+            this.x -= (dx / distance) * force * 0.8;
+            this.y -= (dy / distance) * force * 0.8;
         }
 
         this.x += this.speedX;
