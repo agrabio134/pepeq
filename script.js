@@ -48,10 +48,10 @@ class Particle {
     constructor() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + 1;
+        this.size = Math.random() * 3 + 1;
         this.speedX = Math.random() * 0.5 - 0.25;
         this.speedY = Math.random() * 0.5 - 0.25;
-        this.opacity = Math.random() * 0.5 + 0.2;
+        this.opacity = Math.random() * 0.7 + 0.3;
     }
 
     update() {
@@ -60,10 +60,10 @@ class Particle {
         const dy = mouseY - this.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         
-        if (distance < 200) {
-            const force = (200 - distance) / 200;
-            this.x -= (dx / distance) * force * 2;
-            this.y -= (dy / distance) * force * 2;
+        if (distance < 250) {
+            const force = (250 - distance) / 250;
+            this.x -= (dx / distance) * force * 3;
+            this.y -= (dy / distance) * force * 3;
         }
 
         this.x += this.speedX;
@@ -82,15 +82,20 @@ class Particle {
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
 
+        // Glow effect
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = 'rgba(144, 238, 144, 0.5)';
+
         // Connect nearby particles
         particles.forEach(particle => {
             const dx = this.x - particle.x;
             const dy = this.y - particle.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
 
-            if (distance < 100) {
-                ctx.strokeStyle = `rgba(144, 238, 144, ${0.1 * (1 - distance / 100)})`;
-                ctx.lineWidth = 0.5;
+            if (distance < 120) {
+                ctx.shadowBlur = 0;
+                ctx.strokeStyle = `rgba(144, 238, 144, ${0.15 * (1 - distance / 120)})`;
+                ctx.lineWidth = 0.8;
                 ctx.beginPath();
                 ctx.moveTo(this.x, this.y);
                 ctx.lineTo(particle.x, particle.y);
@@ -101,7 +106,7 @@ class Particle {
 }
 
 // Initialize particles
-for (let i = 0; i < 80; i++) {
+for (let i = 0; i < 150; i++) {
     particles.push(new Particle());
 }
 
